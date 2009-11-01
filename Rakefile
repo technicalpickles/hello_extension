@@ -1,21 +1,22 @@
 require 'rubygems'
 require 'rake'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "hello_extension"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "josh@technicalpickles.com"
-    gem.homepage = "http://github.com/technicalpickles/hello_extension"
-    gem.authors = ["Joshua Nichols"]
-    gem.add_development_dependency "thoughtbot-shoulda"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
+require 'jeweler'
+jeweler_tasks = Jeweler::Tasks.new do |gem|
+  gem.name = "hello_extension"
+  gem.summary = %Q{TODO: one-line summary of your gem}
+  gem.description = %Q{TODO: longer description of your gem}
+  gem.email = "josh@technicalpickles.com"
+  gem.homepage = "http://github.com/technicalpickles/hello_extension"
+  gem.authors = ["Joshua Nichols"]
+  gem.add_development_dependency "thoughtbot-shoulda"
+  gem.extensions = FileList["ext/**/extconf.rb"]
+  # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
 end
+
+require 'rake/extensiontask'
+Rake::ExtensionTask.new('hello_extension', jeweler_tasks.jeweler.gemspec)
+
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
